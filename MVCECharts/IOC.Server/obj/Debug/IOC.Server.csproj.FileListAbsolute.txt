@@ -1,0 +1,12 @@
+D:\Documents\Visual Studio 2015\Projects\MVCECharts\IOC.Server\bin\Debug\IOC.Server.dll
+D:\Documents\Visual Studio 2015\Projects\MVCECharts\IOC.Server\bin\Debug\IOC.Server.pdb
+D:\Documents\Visual Studio 2015\Projects\MVCECharts\IOC.Server\bin\Debug\Repository 基础结构层.dll
+D:\Documents\Visual Studio 2015\Projects\MVCECharts\IOC.Server\bin\Debug\EntityFramework.dll
+D:\Documents\Visual Studio 2015\Projects\MVCECharts\IOC.Server\bin\Debug\itextsharp.dll
+D:\Documents\Visual Studio 2015\Projects\MVCECharts\IOC.Server\bin\Debug\Repository 基础结构层.pdb
+D:\Documents\Visual Studio 2015\Projects\MVCECharts\IOC.Server\bin\Debug\EntityFramework.xml
+D:\Documents\Visual Studio 2015\Projects\MVCECharts\IOC.Server\bin\Debug\itextsharp.xml
+D:\Documents\Visual Studio 2015\Projects\MVCECharts\IOC.Server\bin\Debug\zh-Hans\EntityFramework.resources.dll
+D:\Documents\Visual Studio 2015\Projects\MVCECharts\IOC.Server\obj\Debug\IOC.Server.csprojResolveAssemblyReference.cache
+D:\Documents\Visual Studio 2015\Projects\MVCECharts\IOC.Server\obj\Debug\IOC.Server.dll
+D:\Documents\Visual Studio 2015\Projects\MVCECharts\IOC.Server\obj\Debug\IOC.Server.pdb

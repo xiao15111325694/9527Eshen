@@ -1,0 +1,62 @@
+﻿@{
+    ViewBag.Title = "Chat";
+}
+
+
+<h2>Chat @ViewBag.UserName</h2>
+<div class="row">
+    <div class="col-xs-4"></div>
+    <div class="col-xs-4">
+        <div  style="height: 450px; width: 400px">
+            <h2  style="text-align: center">在线人数</h2>
+            <ul id="discussion" style="border: bisque solid 2px; height: 200px;"></ul>
+            <input id="userName" value="@ViewBag.UserName" type="hidden">
+            <textarea class="form-group" style="height:100px; width: 450px" id="message"></textarea>
+            <input type="hidden" id="displayname"/>
+            <input class="btn btn-success" type="button" style="width: 400px; height: 50px" id="sendmessage" value="发送"/>
+        </div>
+    </div>
+    <div class="col-xs-4"></div>
+</div>
+@section scripts {
+    <!--注意：这里的jQuery脚本已经在模板页_Layout.cshtml中引用-->
+    <script src="~/Scripts/jquery.signalR-2.2.2.min.js"></script>
+    <!--signalr自动生成的脚本-->
+    <script src="~/signalr/hubs"></script>
+    <script>
+
+        $(function() {
+            //声明hub代理
+            var chat = $.connection.chatHub;
+            chat.client.userList = function(users) {
+                
+            }
+            //创建后端要调用的前端function
+            chat.client.addNewMessageToPage = function(name, message) {
+                //将信息添加到页面上
+                $('#discussion')
+                    .append('<li><strong>' + htmlEncode(name) + '</strong>:' + htmlEncode(message) + '</li>');
+            };
+
+            //获取输入的名称
+            $('#displayname').val(prompt('Enter your name:', ''));
+            //将焦点定位在信息输入框中
+            $('#message').focus();
+            //开启链接
+            $.connection.hub.start().done(function() {
+                $('#sendmessage').click(function() {
+                    //调用后台hub的Send方法
+                    chat.server.send($('#userName').val(), $('#message').val());
+                    //清除发送的内容，并将焦点定位到信息框
+                    $('#message').val('').focus();
+                });
+            });
+
+            //该function防止JS注入
+            function htmlEncode(value) {
+                var encodeValue = $('<div/>').text(value).html();
+                return encodeValue;
+            }
+        });
+    </script>
+}

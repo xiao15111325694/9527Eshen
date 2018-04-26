@@ -1,0 +1,9 @@
+D:\Documents\Visual Studio 2015\Projects\MVCECharts\ConsoleApplication1\bin\Debug\ConsoleApplication1.exe.config
+D:\Documents\Visual Studio 2015\Projects\MVCECharts\ConsoleApplication1\obj\Debug\Interop.SHDocVw.dll
+D:\Documents\Visual Studio 2015\Projects\MVCECharts\ConsoleApplication1\obj\Debug\Interop.Shell32.dll
+D:\Documents\Visual Studio 2015\Projects\MVCECharts\ConsoleApplication1\obj\Debug\ConsoleApplication1.csproj.ResolveComReference.cache
+D:\Documents\Visual Studio 2015\Projects\MVCECharts\ConsoleApplication1\bin\Debug\ConsoleApplication1.exe
+D:\Documents\Visual Studio 2015\Projects\MVCECharts\ConsoleApplication1\bin\Debug\ConsoleApplication1.pdb
+D:\Documents\Visual Studio 2015\Projects\MVCECharts\ConsoleApplication1\obj\Debug\ConsoleApplication1.csprojResolveAssemblyReference.cache
+D:\Documents\Visual Studio 2015\Projects\MVCECharts\ConsoleApplication1\obj\Debug\ConsoleApplication1.exe
+D:\Documents\Visual Studio 2015\Projects\MVCECharts\ConsoleApplication1\obj\Debug\ConsoleApplication1.pdb

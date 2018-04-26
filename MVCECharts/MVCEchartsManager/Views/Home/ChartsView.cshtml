@@ -1,0 +1,212 @@
+﻿
+@{
+
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ECharts</title>
+    <script src="~/scripts/bootstrap.js"></script>
+    <link href="~/scripts/bootstrap.css" rel="stylesheet" />
+    <script type="text/javascript" src="~/Uploadify/jquery-1.8.2.min.js"></script>  
+</head>
+
+<body>
+    <div id='left' style='width: 700px; height: 500px;'></div>
+
+    <!-- 引入ECharts文件 -->
+    <script src="~/Scripts/echarts.min.js"></script>
+    <script>
+
+        var myChart = echarts.init(document.getElementById('left'));
+
+        var data = [];
+        var innerList = [];
+        var carTotal = 0;
+        var faceTotal = 0;
+        var macTotal = 0;
+        var modelData = {
+            "code": "200",
+            "data": [{
+                "type": 1,
+                "name": "Y1-S1",
+                "count": 2000
+            }, {
+                "type": 1,
+                "name": "Y1-S2",
+                "count": 1800
+            }, {
+                "type": 1,
+                "name": "Y2-S1",
+                "count": 1500
+            }, {
+                "type": 1,
+                "name": "Y2-S2",
+                "count": 1000
+            }, {
+                "type": 1,
+                "name": "Y3-S1",
+                "count": 1200
+            }, {
+                "type": 1,
+                "name": "Y3-S2",
+                "count": 1000
+            }, {
+                "type": 2,
+                "name": "S1",
+                "count": 2000
+            }, {
+                "type": 2,
+                "name": "S2",
+                "count": 2000
+            }, {
+                "type": 2,
+                "name": "S3",
+                "count": 2000
+            }, {
+                "type": 2,
+                "name": "S4",
+                "count": 2000
+            }, {
+                "type": 3,
+                "name": "UI",
+                "count": 2000
+            }, {
+                "type": 3,
+                "name": "Java",
+                "count": 2000
+            }, {
+                "type": 3,
+                "name": "前端",
+                "count": 2000
+            }],
+            "message": "Successful"
+        };
+        var lineIconName = [];
+        var dataLength = modelData.data.length;
+        var temp = modelData.data;
+        for (var i = 0; i < temp.length; i++) {
+            if (temp[i].type === 1) {
+                carTotal = carTotal + temp[i].count;
+            }
+            if (temp[i].type === 2) {
+                faceTotal = faceTotal + temp[i].count;
+            }
+            if (temp[i].type === 3) {
+                macTotal = macTotal + temp[i].count;
+            }
+            data.push({
+                value: temp[i].count,
+                name: temp[i].name,
+                type: temp[i].type
+            });
+        }
+        if (carTotal > 0) {
+            innerList.push({
+                value: carTotal,
+                name: '高中'
+            });
+        }
+        if (faceTotal > 0) {
+            innerList.push({
+                value: faceTotal,
+                name: '初中'
+            });
+        }
+        if (macTotal > 0) {
+            innerList.push({
+                value: macTotal,
+                name: '大学'
+            });
+
+        }
+        option = {
+            title: {
+                text: '学员以及学历层次',
+                subtext: '纯属虚构',
+                x: 'center'
+            },
+            tooltip: {
+                trigger: 'item',
+                formatter: "{a}<br>{b}: {c} ({d}%)"
+            },
+            legend: {
+                orient: 'vertical',
+                x: 'left',
+                data: ['Y1-S1', 'Y1-S2', 'Y2-S1', 'Y2-S2', 'Y3-S1', 'Y3-S2', 'S1', 'S2', 'S3', 'S4', 'UI', 'Java', '前端']
+            },
+            series: [{
+                name: '班级体系',
+                type: 'pie',
+                selectedMode: 'single',
+                radius: [10, '50%'],
+                label: {
+                    normal: {
+                        position: 'outside',
+                        show: true
+                    }
+                },
+                center: ['50%', '50%'],
+                data: innerList
+            }, {
+                name: "所属学期 ",
+                type: 'pie',
+                center: ['50%', '50%'],
+                radius: ['60%', '70%'],
+                label: {
+                    normal: {
+                        formatter: '{a|{a}}{abg|}\n{hr|}\n  {b|{b}：}{c}  {per|{d}%}  ',
+                        backgroundColor: '#eee',
+                        borderColor: '#aaa',
+                        borderWidth: 1,
+                        borderRadius: 4,
+                        rich: {
+                            a: {
+                                color: '#999',
+                                lineHeight: 22,
+                                align: 'center'
+                            },
+                            hr: {
+                                borderColor: '#aaa',
+                                width: '100%',
+                                borderWidth: 0.5,
+                                height: 0
+                            },
+                            b: {
+                                fontSize: 16,
+                                lineHeight: 33
+                            },
+                            per: {
+                                color: '#eee',
+                                backgroundColor: '#334455',
+                                padding: [2, 4],
+                                borderRadius: 2
+                            }
+                        }
+                    }
+                },
+                itemStyle: {
+                    normal: {
+                        color: function (prams) {
+                            if (prams.data.type === 1) {
+                                return '#C1232B';
+                            }
+                            if (prams.data.type === 2) {
+                                return '#27727B';
+                            }
+                            if (prams.data.type === 3) {
+                                return '#FCCE10';
+                            }
+                        },
+                        borderColor: '#ddd',
+                        borderWidth: 1
+                    }
+                },
+                data: data
+            }]
+        };
+        myChart.setOption(option);
+    </script>
+</body>
+</html>

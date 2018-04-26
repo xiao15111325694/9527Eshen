@@ -1,0 +1,92 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ECharts入门</title>
+</head>
+<body>
+<!-- 为ECharts准备一个具备大小（宽高）的DOM容器-->
+<div style="width: 100%; height: 800px;">
+    
+    <div id='left' style='width: 600px; float: left; height: 400px;'></div>
+    <div id='right' style='width: 600px; height: 400px;'></div>
+</div>
+
+<!-- 引入ECharts文件 -->
+  <script src="~/Scripts/echarts.min.js"></script>
+<script>
+    //基于准备好的DOM，初始化echarts实例
+    var Chart = echarts.init(document.getElementById('left'));
+    var BarChart = echarts.init(document.getElementById('right'));
+    //指定图表的配置项和数据
+    var option = {
+        title:{
+            text:'EChars线性图'
+        },
+        //提示框组件
+        tooltip:{
+            //坐标轴触发，主要用于柱状图，折线图等
+            trigger:'axis'
+        },
+        //图例
+        legend:{
+            data:['销量','数量','库存']
+        },
+        //横轴
+        xAxis:{
+            data:["衬衫","羊毛衫","雪纺衫","裤子","高跟鞋","袜子"]
+        },
+        //纵轴
+        yAxis:{},
+        //系列列表。每个系列通过type决定自己的图表类型
+        series: [
+            {
+            name:'销量',
+            //折线图
+            type:'line',
+            data:[5, 20, 36, 10, 10, 20]
+            },
+            {
+                name: '数量',
+                type: 'line',
+                data: [10, 22, 21, 14, 10, 30, 10]
+            },
+            {
+                name: '库存',
+                type: 'line',
+                data: [30, 52, 61, 74, 70, 50, 50]
+            }
+        ]
+    };
+
+    //var Bar =
+    //{
+    //    title: {
+    //        text: "开发语言树状图"
+    //    },
+    //    tooltip: {
+    //        //坐标轴触发，主要用于柱状图，折线图等
+    //        trigger: 'axis'
+    //    },
+    //    legend:
+    //    {
+    //        data: ['使用排行榜']
+    //    },
+    //    xAxis: {
+    //        data: ["CShap", "Java", "PHP", "", "C", "C++"]
+    //    },
+    //    yAxis: {},
+    //    series: [
+    //        {
+    //            name: '使用排行榜',
+    //            type: "Bar",
+    //            data:[50, 60, 40, 30, 20]
+    //        }
+    //    ]
+
+    //};
+    //使用刚指定的配置项和数据显示图表
+    Chart.setOption(option);
+</script>
+</body>
+</html>

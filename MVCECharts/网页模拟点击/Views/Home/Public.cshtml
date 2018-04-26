@@ -1,0 +1,57 @@
+﻿<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+@{
+    ViewBag.Title = "Public";
+}
+
+<h2>Public</h2>
+
+<div class="nav">
+    <p><h2>模拟点击 评论</h2></p>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-lg-3"></div>
+        <div class="col-lg-6">
+            <form role="form">
+                <div class="form-group">
+                    <input class="form-control" placeholder="输入你要请求的网站Url" id="Url"/>
+                </div>
+                <div class="form-group">
+                    <input class="form-control" type="text" placeholder="输入标签1" id="InputText1" />
+                </div>
+                <div class="form-group">
+                    <input class="form-control" type="text" placeholder="输入标签2" id="InputText2" />
+                </div>
+                <div class="form-group">
+                    <input class="form-control" type="text" placeholder="输入标签3" id="InputText3" />
+                </div>
+                <div class="form-group">
+                    <input class="form-control" type="text" placeholder="输入标签4" id="InputText4" />
+                </div>
+                <div class="form-group">
+                    <input class="form-control" type="text" placeholder="输入Submit标签" id="SavaId" />
+                </div>
+                <button type="button" id="btnClick" class="btn btn-success">开始</button> 
+            </form>
+        </div>
+        <div class="col-lg-3"></div>
+    </div>
+</div>
+<script>
+    $(function () {
+        
+        $("#btnClick").click(function () {
+            alert("1");
+            $.ajax({
+                type: "post",
+                url: "/api/Pubilc/AnalogClicks",
+                data: {
+                    Url: $("#Url").val(),
+                    InputText1: $("#InputText1").val(),
+                    SavaId: $("#SavaId").val()
+                }
+            });
+        });
+    });
+</script>
+

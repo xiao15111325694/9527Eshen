@@ -1,0 +1,578 @@
+﻿
+@using Repository_基础结构层.Models
+@{
+    List<ShopingType> shopingType = ViewBag.Type;
+    List<ShopingInfoViewModel> AllData = ViewBag.Data;
+    var ss = ViewBag.Name;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ECharts</title>
+    <script src="~/scripts/bootstrap.js"></script>
+    <link href="~/scripts/bootstrap.css" rel="stylesheet" />
+    <script type="text/javascript" src="~/Uploadify/jquery-1.8.2.min.js"></script>  
+    <script src="~/scripts/vue.js"></script>
+    <script src="~/scripts/vue-router.js"></script>
+</head>
+
+<body>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-4">
+            <div id='left' style='width: 400px; height: 400px;'></div>
+        </div>
+        <div class="col-md-4">
+            <div id='bar' style='width: 400px; height: 400px;'></div>
+        </div>
+        <div class="col-md-4">
+            <div id='pie' style='width: 400px; height: 400px;'></div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-8">
+            <table class="table table-hover table-responsive">
+                <thead>
+                <tr>
+                    <th>商品名称</th>
+                    <th>商品数量</th>
+                    <th>商品价格</th>
+                    <th>商品库存</th>
+                    <th>商品成交量</th>
+                    <th>商品类型</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach (var item in AllData)
+                {
+                    <tr>
+                        <td>@item.ShopingName</td>
+                        <td>@item.ShopingCount</td>
+                        <td>@item.ShopingPric</td>
+                        <td>@item.Stock</td>
+                        <td>@item.Volumeofvolume</td>
+                        <td>@item.ShopingTypeName</td>
+                        <td>
+                            <button id="sss" type="button" value="@item.ID" onclick="Up(this)" class="btn btn-danger btn-xs">修改</button>
+                            <button id="ss" type="button" class="btn btn-warning btn-xs" onclick="Delete(this)" value="@item.ID">删除</button>
+                        </td>
+
+                    </tr>
+                }
+                </tbody>
+            </table>
+            <a href="/Home/ExportShopingInfo" class="btn btn-danger">下载</a>
+            <a href="/Home/ExportPDF" id="Pdf" class="btn btn-danger">PDF</a>
+        </div>
+        <div class="col-md-4">
+            <form method="post" class="form-horizontal" enctype="multipart/form-data">
+
+                <div class="form-group">
+                    <input type="text" name="ShopingName" class="form-control" id="ShopingName" placeholder="商品名称" /><span id="show"></span>
+                </div>
+                <div class="form-group">
+                    <input type="password" name="ShopingCount" class="form-control" id="ShopingCount" placeholder="商品数量" />
+                </div>
+                <div class="form-group">
+                    <input type="text" name="ShopingPric" class="form-control" id="ShopingPric" placeholder="商品价格">
+                </div>
+                <div class="form-group">
+                    <input type="text" name="Stock" class="form-control" id="Stock" placeholder="库存">
+                </div>
+                <div class="form-group">
+                    <input type="text" name="Volumeofvolume" class="form-control" id="Volumeofvolume" placeholder="成交量">
+                </div>
+                <div class="form-group">
+                    <select class="form-control" id="ShopingTypeId" name="ShopingTypeId">
+                        @foreach (var item in shopingType)
+                        {
+                            <option value="@item.ID">@item.ShopingName</option>
+                        }
+                    </select>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-danger">添加</button>
+
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3">
+            <div id="app">
+                {{ message }}
+            </div>
+
+            <!--这是我们的View-->
+            <div id="app1">
+                <p>{{ message }}</p>
+                <input type="text" v-model="message"/>
+            </div>
+            
+            <div id="app2">
+                <h4>Hello, Vue.js!</h4>
+                <h3 v-if="yes*10>=20">Yes!</h3>
+                <h3 v-if="no">No!</h3>
+                <h3 v-if="age >= 25">Age: {{ age }}</h3>
+                <h3 v-if="name.indexOf('jack') >= 0">Name: {{ name }}</h3>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div id="app3">
+                <h4>Hello, Vue.js!</h4>
+                <h3 v-if="yes*10>=20">Yes!</h3>
+                <h3 v_else>null</h3>
+                <h3 v-if="no">No!</h3>
+                <h3 v-if="age >= 25">Age: {{ age }}</h3>
+                <h3 v-if="name.indexOf('jack') >= 0">Name: {{ name }}</h3>
+            </div>
+            <div id="app5">
+                <input type="text" v-model="message" />
+                <p>
+                    <button class="btn btn-danger" v-on:click="greet">弹出改变消息</button>
+                </p>
+
+                <p>
+                    <button class="btn btn-danger" v-on:click="say('嗨咯')">弹出默认消息</button>
+                </p>
+
+
+            </div>
+        </div>
+        
+        <div class="col-md-3">
+            <div id="app4">
+                <table class="table table-hover table-responsive">
+                    <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Age</th>
+                        <th>Sex</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr v-for="item in people">
+                        <td>{{ item.name  }}</td>
+                        <td>{{ item.age  }}</td>
+                        <td>{{ item.sex  }}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+ 
+    </div>
+    <div class="row">
+    
+        <div class="col-md-8">
+            <div id="app8">
+                @*<form role="form">
+                    <div class="form-group">
+                        <label>商品名称:</label>
+                        <input class="form-control" type="text" v-model="fromShoping.name"/>
+                    </div>
+                    <div class="form-group">
+                        <label>商品数量:</label>
+                        <input class="form-control" type="text" v-model="fromShoping.number"/>
+                    </div>
+                    <div class="form-group">
+                        <label>商品价格:</label>
+                        <input class="form-control" type="text" v-model="fromShoping.pric"/>
+                    </div>
+                    <div class="form-group">
+                        <label>商品类型:</label>
+                        <select class="form-control" v-model="newPerson.type">
+                            <option value="Male">服装</option>
+                            <option value="Female">数码</option>
+                            <option value="Female">食品</option>
+                            <option value="Female">家纺</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label></label>
+                        <button class="btn btn-success" v-on:click="createshop">创建</button>
+                    </div>
+                    
+                </form>*@
+                <label>商品名称:</label>
+                <input class="form-control" type="text" v-model="fromShoping.name"/>
+                <button class="btn btn-success" v-on:click="createshop">创建</button>
+
+                <table class="table table-hover table-responsive">
+                    <thead>
+                    <tr>
+                        <th>商品名称</th>
+                        <th>商品数量</th>
+                        <th>商品价格</th>
+                        <th>商品类型</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr v-for="(shop,index) in shopList">
+                        <td>{{ shop.ss }}</td>
+                        <td>{{ shop.number }}</td>
+                        <td>{{ shop.pric }}</td>
+                        <td>{{ shop.type }}</td>
+                        <td class="'text-center'"><button class="btn btn-danger" v-on:click="deletePerson(index)">Delete</button></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+            <div class="col-md-2">
+            </div>
+        
+
+@*<div id='left' style='width: 500px; height: 400px;'></div>
+<div id='bar' style='width: 500px; height: 400px;'></div>*@
+    </div>
+    <div class="row">
+        <div class="col-md-3">
+            <input id="fileUpload" name="fileUpload" type="file" style="display:none" />
+
+            <input id="fileText" type="text" class="form-control" disabled />
+        </div>
+        <div class="col-md-0">
+            <button type="button" class=" btn btn-primary" onclick="$('#fileUpload').click()">浏览</button>
+        </div>
+        <a href="#" id="Upload" class="btn btn-danger">导入</a>
+    </div>
+
+<!-- 引入ECharts文件 -->
+<script src="~/Scripts/echarts.min.js"></script>
+<script>
+    $("#fileUpload").change(function () {
+        $("#fileText").val($(this).val());
+    })
+    // 这是我们的Model
+    var DataModel = {
+        message: 'Hello World!'
+    }
+
+    // 这是我们的Model
+    var DataModel1 = {
+        message: 'Hello World!'
+    }
+
+
+    // 创建一个 Vue 实例或 "ViewModel"
+    // 它连接 View 与 Model
+    var vm = new Vue({
+        el: '#app',
+        data: DataModel
+    });
+
+    var vm = new Vue({
+        el: '#app1',
+        data: DataModel1
+    });
+
+    var vm = new Vue({
+        el: '#app2',
+        data: {
+            yes: 2,
+            no: false,
+            age: 28,
+            name: 'jackfool'
+        }
+    });
+
+    var vm = new Vue({
+        el: '#app3',
+        data: {
+            yes: 1,
+            no: false,
+            age: 28,
+            name: 'jackfool'
+        }
+    });
+
+    var vm = new Vue({
+        el: '#app4',
+        data: {
+            people: [
+                {
+                    name: 'Jack',
+                    age: 30,
+                    sex: 'Male'
+                }, {
+                    name: 'Bill',
+                    age: 26,
+                    sex: 'Male'
+                }, {
+                    name: 'Tracy',
+                    age: 22,
+                    sex: 'Female'
+                }, {
+                    name: 'Chris',
+                    age: 36,
+                    sex: 'Male'
+                }
+            ]
+        }
+    });
+
+    var vm = new Vue({
+        el: '#app8',
+        data: {
+            fromShoping: {
+                name:'默认'
+            },
+            shopList: [
+                {
+                    ss: '耐克',
+                    number: 10,
+                    pric: 10,
+                    type: '服装'
+                },
+                {
+                    ss: '华为',
+                    number: 10,
+                    pric: 10,
+                    type: '数码'
+                }
+            ]
+        },
+        methods: {
+            createshop:function() {
+                app.shopList.push(this.name);
+            }
+        }
+    });
+
+    var vm = new Vue({
+        el: '#app5',
+        data: {
+            message: 'Hello, Vue.js!'
+        },
+        methods: {
+            greet: function () {
+                // // 方法内 `this` 指向 vm
+                alert(this.message);
+            },
+            say: function (msg) {
+                alert(msg);
+            }
+        }
+    });
+
+
+
+
+    var myChart = echarts.init(document.getElementById('left'));
+    var barChart = echarts.init(document.getElementById('bar'));
+    var pieChart = echarts.init(document.getElementById('pie'));
+    // 显示标题，图例和空的坐标轴
+    myChart.setOption({
+        title: {
+            text: '线性显示'
+        },
+        tooltip: {},
+        legend: {
+            data: ['销量']
+        },
+        grid: { // 控制图的大小，调整下面这些值就可以，
+            x: 5,
+            x2: 50,
+            y2: 150
+        },
+        xAxis: {
+            name: '商品名称',
+            data: [],
+            axisLabel: {
+                interval: 0,
+                rotate: 45
+            }
+
+        },
+        yAxis: {
+            name: '商品数量'
+        },
+        series: [
+            {
+                type: 'line',
+                data: []
+            }
+        ]
+    });
+
+    barChart.setOption({
+        title: {
+            text: '柱状显示'
+        },
+        tooltip: {},
+        legend: {
+            data: ['销量']
+        },
+
+        grid: { // 控制图的大小，调整下面这些值就可以，
+            x: 5,
+            x2: 50,
+            y2: 150
+        },
+        xAxis: {
+            data: [],
+            axisLabel: {
+                interval: 0,
+                rotate: 45
+            }
+        },
+        yAxis: {},
+        series: [
+            {
+                type: 'bar',
+                data: []
+            }
+        ]
+    });
+
+    pieChart.setOption({
+        color: ['#ff7d27', '#47b73d', '#fcc36e', '#57a2fd', "#228b22", "#A52A2A", "	#00F5FF"], //饼图颜色
+        title: {
+            text: '商品饼图',
+            subtext: '测试',
+            x: 'center'
+        },
+        tooltip: {
+            trigger: 'item',
+            formatter: "{a} <br/>{b} : {c} ({d}%)"
+        },
+        legend: {
+            orient: 'vertical',
+            x: 'left',
+            data: []
+        },
+        toolbox: {
+            show: true,
+            feature: {
+                mark: { show: true },
+                dataView: { show: true, readOnly: false },
+                magicType: {
+                    show: true,
+                    type: ['pie', 'funnel'],
+                    option: {
+                        funnel: {
+                            x: '25%',
+                            width: '50%',
+                            funnelAlign: 'left',
+                            max: 1548
+                        }
+                    }
+                },
+                restore: { show: true },
+                saveAsImage: { show: true }
+            }
+        },
+        series: [
+            {
+                name: '销售量',
+                type: 'pie',
+                radius: '55%',
+                center: ['50%', '60%'],
+                data: []
+            }
+        ]
+    });
+
+    $.ajax({
+        url: "/Home/ShowShopingCharts",
+        dataType: "Json",
+        type: "Post",
+        success: function(date) {
+            var resule = JSON.parse(date);
+            alert(resule.Name);
+            myChart.setOption({
+                xAxis: {
+                    data: resule.Name
+                },
+                series: [
+                    {
+                        // 根据名字对应到相应的系列
+                        name: '销量',
+                        data: resule.Count
+                    }
+                ]
+            });
+            window.onresize = myChart.resize;
+
+            barChart.setOption({
+                xAxis: {
+                    data: resule.Name
+                },
+                series: [
+                    {
+                        // 根据名字对应到相应的系列
+                        name: '销量',
+                        data: resule.Count
+                    }
+                ]
+            });
+            window.onresize = barChart.resize;
+        }
+    });
+
+
+    myChart.on('click',
+        function(params) {
+            alert(params.name);
+            $.ajax({
+                url: "/Home/SelectShopingInfoByName",
+                dataType: "Json",
+                type: "Post",
+                success: function(data) {
+                    alert(data);
+                }
+            });
+        });
+
+    var content = [];
+    $.ajax({
+        url: "/Home/ShowShopingCharts",
+        dataType: "Json",
+        type: "Post",
+        success: function(date) {
+            var resule = JSON.parse(date);
+            for (var i = 0; i < resule.Name.length; i++) {
+                var map = {};
+                map.name = resule.Name[i];
+                map.value = resule.Count[i];
+                content[i] = map;
+            }
+
+            pieChart.setOption({
+                series: [
+                    {
+                        data: content
+                    }
+                ]
+            });
+        }
+    });
+
+    $(function () {
+        $("#Upload").click(function () {
+            var fileObj = $("#fileText").val();
+            alert(fileObj);
+            $.ajax({
+                data: { "fileName": fileObj },
+                url: "/Home/Upload",
+                type: "POST",
+                dataType: "json",
+                cache: false,//上传文件无需缓存
+                processData: false,//用于对data参数进行序列化处理 这里必须false
+                contentType: false, //必须
+                success: function (result) {
+                    alert("上传完成!");
+                },
+            })
+        })
+    })
+
+</script>
+</body>
+</html>

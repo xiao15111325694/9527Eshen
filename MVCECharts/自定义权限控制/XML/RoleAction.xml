@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Roles>
+  <Controller name="Home">
+    <Action name="Index"></Action>
+    <Action name="Chat">Admin,VIP5,VIP4</Action>
+  </Controller>
+    <Controller name="Account">
+    <Action name="Index"></Action>
+    <Action name="GETint">Admin,VIP5,VIP4</Action>
+  </Controller>
+</Roles>

@@ -1,0 +1,321 @@
+﻿@using System.Activities.Statements
+@using Repository_基础结构层.Models
+@{
+    List<Repository_基础结构层.Models.ShopingType> shopingType = ViewBag.Type;
+    List<ShopingInfoViewModel> AllData = ViewBag.Data;
+    //int[] cc = ViewBag.Count;
+    var ss = ViewBag.Name;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ECharts</title>
+    <script src="~/scripts/bootstrap.js"></script>
+    <link href="~/scripts/bootstrap.css" rel="stylesheet" />
+    <script type="text/javascript" src="~/Uploadify/jquery-1.8.2.min.js"></script>  
+    <script src="~/scripts/vue.js"></script>
+    <script src="~/scripts/vue-router.js"></script>
+</head>
+
+<body>
+        <div class="container">
+        <form class="form-horizontal" action="Upload" role="form" method="post" enctype="multipart/form-data">
+            <div class="form-group">
+                <div class="col-md-3">
+                    <label class="control-label" style="float:right">上传文件</label>
+                </div>
+                <div class="col-md-3">
+                    <input id="fileUpload" name="fileUpload" type="file" style="display:none" />
+
+                    <input id="fileText" type="text" class="form-control" disabled />
+                </div>
+                <div class="col-md-0">
+                    <button type="button" class=" btn btn-primary" onclick="$('#fileUpload').click()">浏览</button>
+                </div>
+            </div>
+
+            <script>
+                $("#fileUpload").change(function () {
+                    $("#fileText").val($(this).val());
+                })
+            </script>
+
+            <div class="form-group">
+                <div class="col-md-3 col-md-offset-3">
+                    <button type="submit" class=" btn btn-primary">导入</button>
+                    <div class="btn-group">
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                                导出模板
+                            </button>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a href="GetExportExcelUrl?ExportTypeIndex=1">导出到.csv</a></li>
+                                <li><a href="GetExportExcelUrl?ExportTypeIndex=2">导出到.xls</a></li>
+                                <li><a href="GetExportExcelUrl?ExportTypeIndex=3">导出到.xlsx</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-3">
+                <div id="app">
+                    {{ message }}
+                </div>
+
+                <!--这是我们的View-->
+                <div id="app1">
+                    <p>{{ message }}</p>
+                    <input type="text" v-model="message" />
+                </div>
+
+                <div id="app2">
+                    <h4>Hello, Vue.js!</h4>
+                    <h3 v-if="yes*10>=20">Yes!</h3>
+                    <h3 v-if="no">No!</h3>
+                    <h3 v-if="age >= 25">Age: {{ age }}</h3>
+                    <h3 v-if="name.indexOf('jack') >= 0">Name: {{ name }}</h3>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div id="app3">
+                    <h4>Hello, Vue.js!</h4>
+                    <h3 v-if="yes*10>=20">Yes!</h3>
+                    <h3 v_else>null</h3>
+                    <h3 v-if="no">No!</h3>
+                    <h3 v-if="age >= 25">Age: {{ age }}</h3>
+                    <h3 v-if="name.indexOf('jack') >= 0">Name: {{ name }}</h3>
+                </div>
+                <div id="app5">
+                    <input type="text" v-model="message" />
+                    
+                        <button class="btn btn-danger" v-on:click="greet">弹出改变消息</button>
+                        <button class="btn btn-danger" v-on:click="say('嗨咯')">弹出默认消息</button>
+               
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div id="app4">
+                    <table class="table table-hover table-responsive">
+                        <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Age</th>
+                            <th>Sex</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr v-for="item in people">
+                            <td>{{ item.name  }}</td>
+                            <td>{{ item.age  }}</td>
+                            <td>{{ item.sex  }}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div id="app6">
+                    <h3>大家好！我四{{name}}</h3>
+                    <button class="btn btn-default" v-on:click="number +=1">点一下玩一年</button>
+                    <p>装备不花{{ number }}分钱 </p>
+                </div>
+
+            </div>
+
+        </div>
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+            <div id="app8">
+                <label>商品名称:</label>
+                <input class="form-control" type="text" v-model="shopingName" />
+                <label>商品价格:</label>
+                <input class="form-control" type="text" v-model="shopingPric" />
+                <label>商品数量:</label>
+                <input class="form-control" type="number" v-model="shopingNumber" />
+                <label>商品类型:</label>
+                <select class="form-control" v-model="type">
+                    <option value="Male">服装</option>
+                    <option value="Female">数码</option>
+                    <option value="Female">食品</option>
+                    <option value="Female">家纺</option>
+                </select>
+                <button class="btn btn-success" v-on:click="createshop">创建</button>
+
+                <table class="table table-hover table-responsive">
+                    <thead>
+                    <tr>
+                        <th>编号</th>
+                        <th>商品名称</th>
+                        <th>商品数量</th>
+                        <th>商品价格</th>
+                        <th>商品类型</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr v-for="(shop,index) in shopList">
+                        <td>{{ index }}</td>
+                        <td>{{ shop.ss }}</td>
+                        <td>{{ shop.number }}</td>
+                        <td>{{ shop.pric }}</td>
+                        <td>{{ shop.type }}</td>
+                        <td class="'text-center'"><button class="btn btn-danger" v-on:click="deleteshop(index)">Delete</button></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col-md-2">
+        </div>
+
+    </div>
+    </div>
+        @*<div id='left' style='width: 500px; height: 400px;'></div>
+            <div id='bar' style='width: 500px; height: 400px;'></div>*@
+
+
+        <!-- 引入ECharts文件 -->
+        <script src="~/Scripts/echarts.min.js"></script>
+        <script>
+
+    // 这是我们的Model
+    var DataModel = {
+        message: 'Hello World!'
+    }
+
+    // 这是我们的Model
+    var DataModel1 = {
+        message: 'Hello World!'
+    }
+
+
+    // 创建一个 Vue 实例或 "ViewModel"
+    // 它连接 View 与 Model
+    var vm = new Vue({
+        el: '#app',
+        data: DataModel
+    });
+
+    var vm = new Vue({
+        el: '#app1',
+        data: DataModel1
+    });
+
+    var vm = new Vue({
+        el: '#app2',
+        data: {
+            yes: 2,
+            no: false,
+            age: 28,
+            name: 'jackfool'
+        }
+    });
+
+    var vm = new Vue({
+        el: '#app3',
+        data: {
+            yes: 1,
+            no: false,
+            age: 28,
+            name: 'jackfool'
+        }
+    });
+
+    var vm = new Vue({
+        el: '#app4',
+        data: {
+            people: [
+                {
+                    name: 'Jack',
+                    age: 30,
+                    sex: 'Male'
+                }, {
+                    name: 'Bill',
+                    age: 26,
+                    sex: 'Male'
+                }, {
+                    name: 'Tracy',
+                    age: 22,
+                    sex: 'Female'
+                }, {
+                    name: 'Chris',
+                    age: 36,
+                    sex: 'Male'
+                }
+            ]
+        }
+    });
+
+    var vm = new Vue({
+        el: '#app8',
+        data: {
+            shopingName:'',
+            shopingPric:0,
+            shopingNumber: 0,
+            type:'服装',
+            shopList: [
+                {
+                    ss: '耐克',
+                    number: 10,
+                    pric: 10,
+                    type: '服装'
+                },
+                {
+                    ss: '华为',
+                    number: 10,
+                    pric: 10,
+                    type: '数码'
+                }
+            ]
+        },
+        methods: {
+            createshop:function() {
+                this.shopList.push({
+                    ss: this.shopingName,
+                    pric: this.shopingPric,
+                    number: this.shopingNumber,
+                    type:this.type
+                });
+            },
+            deleteshop:function(index) {
+                this.shopList.splice(index, 1);
+            }
+        }
+    });
+
+    var vm = new Vue({
+        el: '#app6',
+        data: {
+            name: '渣渣辉',
+            number: 0
+        }
+    });
+
+    var vm = new Vue({
+        el: '#app5',
+        data: {
+            message: 'Hello, Vue.js!'
+        },
+        methods: {
+            greet: function () {
+                // // 方法内 `this` 指向 vm
+                alert(this.message);
+            },
+            say: function (msg) {
+                alert(msg);
+            }
+        }
+    });
+
+
+
+   
+
+        </script>
+</body>
+</html>
